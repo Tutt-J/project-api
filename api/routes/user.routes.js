@@ -10,6 +10,13 @@ module.exports = function(app) {
         next();
     });
 
+    //create new user
+    //retrieve all users
+    //retrieve all users by role
+    //retrieve one user  with id
+    //update a user with id
+    //delete user with id
+    //delete all users
     app.get("/api/test/all", controller.allAccess);
 
     app.get(

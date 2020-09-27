@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./api/models");
-db.sequelize.sync();
+db.sequelize.sync({ force: true });
 
 //Routes
 require("./api/routes/tutorial.routes")(app);
