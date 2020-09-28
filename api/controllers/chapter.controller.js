@@ -1,11 +1,13 @@
 const db = require("../models");
-const User = db.user;
+const Tutorial= db.tutorial
+const Chapter = db.chapter;
 const Roles = db.role;
+const User = db.user;
 
 exports.findAll = (req, res) => {
-    User.findAll({
+    Chapter.findAll({
         include: [
-            {model: Roles, as: Roles.tableName}
+            {model: Tutorial, as: Tutorial}
         ]
     })
         .then(data => {
@@ -14,19 +16,19 @@ exports.findAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving users."
+                    err.message || "Some error occurred while retrieving chapters."
             });
         });
 };
 
-exports.findAllByRoles = (req, res) => {
-    const role = req.params.role;
-    User.findAll({
+exports.findAllByTutorial = (req, res) => {
+    const id = req.params.id;
+    Chapter.findAll({
         where: {
-            '$name$': role
+            '$tutorial.id$': id
         },
         include: [
-            {model: Roles, as: Roles.tableName}
+            {model: Tutorial, as: Tutorial}
         ]
     })
         .then(data => {
@@ -35,24 +37,27 @@ exports.findAllByRoles = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving users."
+                    err.message || "Some error occurred while retrieving chapters."
             });
         });
 };
 
 exports.findOne = (req, res) => {
     const slug = req.params.slug;
-    User.findOne({
+    Chapter.findOne({
         where: { slug: slug },
         include: [
-            {model: Roles, as: Roles.tableName}
+            {
+                model: Tutorial, as: Tutorial
+            },
+
         ]
     }).then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving User with slug=" + slug
+                message: "Error retrieving Chapter with slug=" + slug
             });
         });
 };
@@ -60,7 +65,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
     const slug = req.params.slug;
 
-    User.update(req.body, {
+    Chapter.update(req.body, {
         where: { slug: slug }
     })
         .then(num => {
@@ -84,7 +89,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const slug = req.params.slug;
 
-    User.destroy({
+    Chapter.destroy({
         where: { slug: slug }
     })
         .then(num => {

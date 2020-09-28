@@ -26,12 +26,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./api/models");
-db.sequelize.sync({ force: true });
+db.sequelize.sync();
 
 //Routes
 require("./api/routes/tutorial.routes")(app);
 require('./api/routes/auth.routes')(app);
 require('./api/routes/user.routes')(app);
+require('./api/routes/chapter.routes')(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -28,7 +28,7 @@ Object.keys(db).forEach(modelName => {
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
+db.tutorial = require("./tutorial.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("./role.model.js")(sequelize, Sequelize);
 db.chapter = require("./chapter.model")(sequelize, Sequelize);
@@ -47,12 +47,12 @@ db.user.belongsToMany(db.role, {
     otherKey: "role_id"
 });
 
-db.tutorials.belongsToMany(db.user, {
+db.tutorial.belongsToMany(db.user, {
     through: "user_tutorials",
     foreignKey: "tutorial_id",
     otherKey: "user_id"
 });
-db.user.belongsToMany(db.tutorials, {
+db.user.belongsToMany(db.tutorial, {
     through: "user_tutorials",
     foreignKey: "user_id",
     otherKey: "tutorial_id"
@@ -61,17 +61,17 @@ db.user.belongsToMany(db.tutorials, {
 db.chapter.hasMany(db.user_tutorials,{ foreignKey: 'chapter_id' }, { onDelete: 'cascade' })
 
 
-db.tutorials.belongsTo(db.user, { foreignKey: 'user_id' })
-db.user.hasMany(db.tutorials,{ foreignKey: 'user_id' }, { onDelete: 'cascade' })
+db.tutorial.belongsTo(db.user, { foreignKey: 'user_id' })
+db.user.hasMany(db.tutorial,{ foreignKey: 'user_id' }, { onDelete: 'cascade' })
 
-db.chapter.belongsTo(db.tutorials, { foreignKey: 'tutorial_id' })
-db.tutorials.hasMany(db.chapter,{ foreignKey: 'tutorial_id' }, { onDelete: 'cascade' })
+db.chapter.belongsTo(db.tutorial, { foreignKey: 'tutorial_id' })
+db.tutorial.hasMany(db.chapter,{ foreignKey: 'tutorial_id' }, { onDelete: 'cascade' })
 
-db.prerequisite.belongsTo(db.tutorials, { foreignKey: 'tutorial_id' })
-db.tutorials.hasMany(db.prerequisite,{ foreignKey: 'tutorial_id' }, { onDelete: 'cascade' })
+db.prerequisite.belongsTo(db.tutorial, { foreignKey: 'tutorial_id' })
+db.tutorial.hasMany(db.prerequisite,{ foreignKey: 'tutorial_id' }, { onDelete: 'cascade' })
 
-db.goal.belongsTo(db.tutorials, { foreignKey: 'tutorial_id' })
-db.tutorials.hasMany(db.goal,{ foreignKey: 'tutorial_id' }, { onDelete: 'cascade' })
+db.goal.belongsTo(db.tutorial, { foreignKey: 'tutorial_id' })
+db.tutorial.hasMany(db.goal,{ foreignKey: 'tutorial_id' }, { onDelete: 'cascade' })
 
 db.ROLES = ["user", "admin", "moderator"];
 

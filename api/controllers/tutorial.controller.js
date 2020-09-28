@@ -1,21 +1,15 @@
 const db = require("../models");
-const Tutorial = db.tutorials;
+const Tutorial = db.tutorial;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-    // Validate request
-    if (!req.body.title) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-        return;
-    }
-
     // Create a Tutorial
     const tutorial = {
         title: req.body.title,
         description: req.body.description,
+        level: req.body.level,
+        duration: req.body.duration,
         published: req.body.published ? req.body.published : false
     };
 
@@ -133,7 +127,7 @@ exports.deleteAll = (req, res) => {
 
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
-    Tutorial.findAll({ where: { published: true } })
+    Tutorial.findOne({ where: { slug: slug } })
         .then(data => {
             res.send(data);
         })

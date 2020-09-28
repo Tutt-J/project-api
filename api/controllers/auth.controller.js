@@ -9,12 +9,21 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
-    // Save User to Database
-    User.create({
+    // Create a Tutorial
+    const user = {
         username: req.body.username,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
-    })
+        password: bcrypt.hashSync(req.body.password,8),
+        street: req.body.street,
+        postal_code: req.body.postal_code,
+        city: req.body.city,
+        country: req.body.country,
+    };
+
+    // Save Tutorial in the database
+    User.create(user)
         .then(user => {
             if (req.body.roles) {
                 Role.findAll({
@@ -39,6 +48,9 @@ exports.signup = (req, res) => {
             res.status(500).send({ message: err.message });
         });
 };
+
+// Create and Save a new Tutorial
+
 
 exports.signin = (req, res) => {
     User.findOne({

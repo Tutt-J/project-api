@@ -1,7 +1,10 @@
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/user.controller");
 
-module.exports = function(app) {
+module.exports = app => {
+    const users = require("../controllers/user.controller.js");
+
+    var router = require("express").Router();
+
     app.use(function(req, res, next) {
         res.header(
             "Access-Control-Allow-Headers",
@@ -10,30 +13,12 @@ module.exports = function(app) {
         next();
     });
 
-    //create new user
-    //retrieve all users
-    //retrieve all users by role
-    //retrieve one user  with id
-    //update a user with id
-    //delete user with id
-    //delete all users
-    app.get("/api/test/all", controller.allAccess);
+    router.get("/",users.findAll);
+    router.get("/role/:role", [authJwt.verifyToken, authJwt.isAdmin], users.findAllByRoles);
+    router.get("/:slug", [authJwt.verifyToken, authJwt.isAdmin], users.findOne);
+    router.put("/:slug", [authJwt.verifyToken, authJwt.isAdmin], users.update);
+    router.delete("/:slug", [authJwt.verifyToken, authJwt.isAdmin],users.delete);
 
-    app.get(
-        "/api/test/user",
-        [authJwt.verifyToken],
-        controller.userBoard
-    );
+    app.use('/api/users', router);
 
-    app.get(
-        "/api/test/mod",
-        [authJwt.verifyToken, authJwt.isModerator],
-        controller.moderatorBoard
-    );
-
-    app.get(
-        "/api/test/admin",
-        [authJwt.verifyToken, authJwt.isAdmin],
-        controller.adminBoard
-    );
 };

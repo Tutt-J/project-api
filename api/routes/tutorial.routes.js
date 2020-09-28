@@ -1,28 +1,33 @@
+const { authJwt } = require("../middlewares");
+
 module.exports = app => {
-    const tutorials = require("../controllers/tutorial.controller.js");
+    const tutorial = require("../controllers/tutorial.controller.js");
+    const chapter = require("../controllers/chapter.controller.js");
 
     var router = require("express").Router();
 
     // Create a new Tutorial
-    router.post("/", tutorials.create);
+    router.post("/", [authJwt.verifyToken], tutorial.create);
 
     // Retrieve all Tutorials
-    router.get("/", tutorials.findAll);
+    router.get("/",  [authJwt.verifyToken], tutorial.findAll);
 
     // Retrieve all published Tutorials
-    router.get("/published", tutorials.findAllPublished);
+    router.get("/published", [authJwt.verifyToken, authJwt.isAdmin], tutorial.findAllPublished);
+
+    router.get("/:id/chapters", chapter.findAllByTutorial);
 
     // Retrieve a single Tutorial with id
-    router.get("/:id", tutorials.findOne);
+    router.get("/:id", [authJwt.verifyToken], tutorial.findOne);
 
     // Update a Tutorial with id
-    router.put("/:id", tutorials.update);
+    router.put("/:id", [authJwt.verifyToken, authJwt.isAdmin], tutorial.update);
 
     // Delete a Tutorial with id
-    router.delete("/:id", tutorials.delete);
+    router.delete("/:id", [authJwt.verifyToken, authJwt.isAdmin], tutorial.delete);
 
     // Delete all Tutorials
-    router.delete("/", tutorials.deleteAll);
+    router.delete("/", [authJwt.verifyToken, authJwt.isAdmin], tutorial.deleteAll);
 
     app.use('/api/tutorials', router);
 };
