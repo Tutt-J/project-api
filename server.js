@@ -13,7 +13,7 @@ const app = express();
 
 //Set cors options
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "http://127.0.0.1:8080"
 };
 
 //Link the cors middleware to an object instance
@@ -35,7 +35,7 @@ require('./api/routes/user.routes')(app);
 require('./api/routes/chapter.routes')(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });

@@ -45,34 +45,6 @@ module.exports = (sequelize, Sequelize) => {
                 notNull: { msg: "password is required" },
             }
         },
-        street: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: "street is required" },
-            }
-        },
-        postal_code: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: "postal_code is required" },
-            }
-        },
-        city: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: "city is required" },
-            }
-        },
-        country: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            validate: {
-                notNull: { msg: "country is required" },
-            }
-        },
         last_login: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW

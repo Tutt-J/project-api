@@ -15,11 +15,7 @@ exports.signup = (req, res) => {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password,8),
-        street: req.body.street,
-        postal_code: req.body.postal_code,
-        city: req.body.city,
-        country: req.body.country,
+        password: bcrypt.hashSync(req.body.password,8)
     };
 
     // Save Tutorial in the database

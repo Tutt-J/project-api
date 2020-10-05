@@ -10,7 +10,7 @@ module.exports = app => {
     router.post("/", [authJwt.verifyToken], tutorial.create);
 
     // Retrieve all Tutorials
-    router.get("/",  [authJwt.verifyToken], tutorial.findAll);
+    router.get("/",   tutorial.findAll);
 
     // Retrieve all published Tutorials
     router.get("/published", [authJwt.verifyToken, authJwt.isAdmin], tutorial.findAllPublished);
